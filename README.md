@@ -9,4 +9,5 @@ online nearest neighbours to build up a dynamic visual ID, and in moments of con
 also use online learned physics metrics to narrow down the local search and accurately infere path of object when its not visable.
 
 ## Extra thought
-- have the output from a model be a bitmap if you know that all of the objects your detecting are roughly the same size. 
+- have the output from a model be a bitmap if you know that all of the objects your detecting are roughly the same size.
+- use a quilt inspired loss metric that will make the mask more learnable. 
