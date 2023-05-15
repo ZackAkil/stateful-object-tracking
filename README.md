@@ -7,3 +7,6 @@ with classic object tracking you always get this object flickering issue. as hum
 ## approach
 online nearest neighbours to build up a dynamic visual ID, and in moments of confusion deploy a local serach using this visual id to persist tracking.
 also use online learned physics metrics to narrow down the local search and accurately infere path of object when its not visable.
+
+## Extra thought
+- have the output from a model be a bitmap if you know that all of the objects your detecting are roughly the same size. 
