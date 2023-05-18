@@ -11,3 +11,22 @@ also use online learned physics metrics to narrow down the local search and accu
 ## Extra thought
 - have the output from a model be a bitmap if you know that all of the objects your detecting are roughly the same size. ✅ this actually worked amazingly well
 - - use a quilt inspired loss metric that will make the mask more learnable. 
+
+## V1 results
+with a simple image-2-image mask model with the blob bounding huristic trained on less than 15 full res images, the perfornace was amazing:
+
+Test image:
+---
+![](v1_15/v1_15_input.png)
+
+Raw model output:
+---
+![](v1_15/v1_15_raw.png)
+
+Cleaned up huristic output:
+---
+![](v1_15/v1_15_mask.png)
+
+With blob bounding huristic:
+---
+![](v1_15/v1_15.png)
