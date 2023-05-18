@@ -15,7 +15,7 @@ also use online learned physics metrics to narrow down the local search and accu
 ## V1 results
 with a simple image-2-image mask model with the blob bounding huristic trained on less than 15 full res images, the perfornace was amazing:
 
-The surpisingly robust training curves given the input resolution and only 13 training images:
+The surpisingly robust training curves given the input resolution of (700,400,3) and only 13 training images:
 ---
 ![](v1_15/v1_15_training_curve.png)
 
