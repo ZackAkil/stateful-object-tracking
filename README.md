@@ -17,20 +17,20 @@ with a simple image-2-image mask model with the blob bounding huristic trained o
 
 The surpisingly robust training curves given the input resolution of (700,400,3) and only 13 training images:
 ---
-![](v1_15/v1_15_training_curve.png)
+![](images/v1_15/v1_15_training_curve.png)
 
 Test image:
 ---
-![](v1_15/v1_15_input.png)
+![](images/v1_15/v1_15_input.png)
 
 Raw model output:
 ---
-![](v1_15/v1_15_raw.png)
+![](images/v1_15/v1_15_raw.png)
 
 Cleaned up huristic output:
 ---
-![](v1_15/v1_15_mask.png)
+![](images/v1_15/v1_15_mask.png)
 
 With blob bounding huristic:
 ---
-![](v1_15/v1_15.png)
+![](images/v1_15/v1_15.png)
