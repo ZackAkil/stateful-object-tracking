@@ -51,14 +51,14 @@ def find_islands(matrix):
       # Find the indices of the ones in the mask
       indices = np.where(mask)
 
-      avg_y = indices[0].mean()
-      avg_x = indices[1].mean()
+      avg_y = float(indices[0].mean())
+      avg_x = float(indices[1].mean())
 
-      min_x = indices[1].min()
-      max_x = indices[1].max()
+      min_x = int(indices[1].min())
+      max_x = int(indices[1].max())
 
-      min_y = indices[0].min()
-      max_y = indices[0].max()
+      min_y = int(indices[0].min())
+      max_y = int(indices[0].max())
 
       box = {'pos':{'x':avg_x, 'y':avg_y}, 'bbox':{'min_x':min_x, 'max_x':max_x,
                                                    'min_y':min_y, 'max_y':max_y}}
@@ -66,9 +66,9 @@ def find_islands(matrix):
 
   return boxes
 
-def run_box_huristic(mask):
+def run_box_huristic(mask, threshold = 0.5):
 
-  porlarized_matrix = mask > 0.5
+  porlarized_matrix = mask > threshold
 
   expanded_pixels = expand_islands(porlarized_matrix, 1)
 
