@@ -95,7 +95,7 @@
 
                 video.addEventListener('timeupdate', () => {
                     const currentTime = video.currentTime;
-                    const frameRate = 30; // Replace with the actual frame rate of your video
+                    const frameRate = 25; // Replace with the actual frame rate of your video
                     const frameNumber = Math.floor(currentTime * frameRate);
                     // frameNumberElement.textContent = `Frame Number: ${frameNumber}`;
                     this.current_time = frameNumber
