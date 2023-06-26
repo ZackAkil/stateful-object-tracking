@@ -25,6 +25,12 @@
             left: 0;
             pointer-events: none;
         }
+
+        circle {
+            cursor: pointer;
+            pointer-events: all;
+
+        }
     </style>
 </head>
 
@@ -40,7 +46,11 @@
                     :y="box.bbox.min_y * 480" :width="50" :height="50" fill="blue" stroke="black" stroke-width="2" /> -->
 
                 <circle v-for="(box, index) in current_boxes" :key="index" :cx="box.pos.x * 640" :cy="box.pos.y * 360"
-                    r="5" fill="red" />
+                    r="5" fill="red" @click="player_click(box)" />
+
+                <path v-if="display_track" :d="generatePath(display_track)" fill="none" stroke="red"
+                    stroke-dasharray="5,2" stroke-width="2" />
+
             </svg>
         </div>
 
@@ -57,23 +67,22 @@
                 title: "hello",
                 tracks: [],
                 current_time: 1,
-                canvasWidth: 500,
-                canvasHeight: 500
+                display_track: null
             },
             computed: {
                 current_boxes() {
                     let output = []
                     // console.log(this.tracks)
-                    this.tracks.forEach(track => {
-                        // console.log(track)
+                    for (let index = 0; index < this.tracks.length; index++) {
+                        const track = this.tracks[index]
+
                         track.frames.forEach(frame => {
                             // console.log(frame.time_stamp, this.current_time)
                             if (frame.time_stamp == this.current_time) {
-                                output.push(frame)
+                                output.push({ ...frame, track_id: index })
                             }
                         }, this)
-                    }, this)
-
+                    }
                     return output
                 }
             },
@@ -93,13 +102,22 @@
 
                 video = document.getElementById('video');
 
-                // video.addEventListener('timeupdate', () => {
-                //     const currentTime = video.currentTime;
-                //     const frameRate = 25; // Replace with the actual frame rate of your video
-                //     const frameNumber = Math.floor(currentTime * frameRate);
-                //     // frameNumberElement.textContent = `Frame Number: ${frameNumber}`;
-                //     this.current_time = frameNumber
-                // });
+            },
+            methods: {
+                player_click(player) {
+                    console.log(player)
+                    this.display_track = this.tracks[player.track_id]
+                },
+                generatePath(coordinates) {
+                    console.log(coordinates)
+                    const points = []
+                    const first_point_time = coordinates.frames[0].time_stamp
+                    const subset = coordinates.frames.slice(0, this.current_time - first_point_time + 1);
+
+                    return 'M' + subset
+                        .map(coord => `${coord.pos.x * 640},${coord.pos.y * 360} L`)
+                        .join(" ").slice(0, -1);
+                },
             }
         })
 
