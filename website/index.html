@@ -93,17 +93,24 @@
 
                 video = document.getElementById('video');
 
-                video.addEventListener('timeupdate', () => {
-                    const currentTime = video.currentTime;
-                    const frameRate = 25; // Replace with the actual frame rate of your video
-                    const frameNumber = Math.floor(currentTime * frameRate);
-                    // frameNumberElement.textContent = `Frame Number: ${frameNumber}`;
-                    this.current_time = frameNumber
-                });
+                // video.addEventListener('timeupdate', () => {
+                //     const currentTime = video.currentTime;
+                //     const frameRate = 25; // Replace with the actual frame rate of your video
+                //     const frameNumber = Math.floor(currentTime * frameRate);
+                //     // frameNumberElement.textContent = `Frame Number: ${frameNumber}`;
+                //     this.current_time = frameNumber
+                // });
             }
         })
 
+        function tick() {
+            const currentTime = video.currentTime;
+            const frameRate = 25; // Replace with the actual frame rate of your video
+            const frameNumber = Math.floor(currentTime * frameRate);
+            app.current_time = frameNumber
+        }
 
+        setInterval(tick, 1000 / 30);
 
     </script>
 </body>
