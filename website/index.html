@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>My HTML App</title>
+    <style>
+        /* Add your CSS styles here */
+        video {
+            height: 400px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        {{title}}
+        <video src="trip dji.mov" controls></video>
+
+        <svg :width="canvasWidth" :height="canvasHeight">
+            <rect v-for="(box, index) in current_boxes" :key="index" :x="box.bbox.min_x" :y="box.bbox.min_y" :width="50"
+                :height="50" fill="blue" stroke="black" stroke-width="2" />
+        </svg>
+
+        <!-- {{tracks}} -->
+    </div>
+
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                title: "hello",
+                tracks: [],
+                current_time: 1,
+                canvasWidth: 500,
+                canvasHeight: 500
+            },
+            computed: {
+                current_boxes() {
+                    let output = []
+                    // console.log(this.tracks)
+                    this.tracks.forEach(track => {
+                        // console.log(track)
+                        track.frames.forEach(frame => {
+                            // console.log(frame.time_stamp, this.current_time)
+                            if (frame.time_stamp == this.current_time) {
+                                output.push(frame)
+                            }
+                        }, this)
+                    }, this)
+
+                    return output
+                }
+            },
+            mounted() {
+                self = this
+                fetch('tracking.json')
+                    .then(response => response.json())
+                    .then(data => {
+                        // Process the loaded JSON data
+                        console.log(data);
+                        self.tracks = data.object_tracks
+                    })
+                    .catch(error => {
+                        // Handle any errors that occur during the fetch operation
+                        console.error('Error:', error);
+                    });
+            }
+        })
+
+
+
+    </script>
+</body>
+
+</html>
