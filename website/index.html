@@ -8,8 +8,22 @@
     <title>My HTML App</title>
     <style>
         /* Add your CSS styles here */
+
+        .container {
+            position: relative;
+        }
+
         video {
-            height: 400px;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
         }
     </style>
 </head>
@@ -17,17 +31,26 @@
 <body>
     <div id="app">
         {{title}}
-        <video src="trip dji.mov" controls></video>
+        {{this.current_time}}
+        <div class="container">
+            <video id="video" src="drone_45.mp4" controls width="640" height="360"></video>
 
-        <svg :width="canvasWidth" :height="canvasHeight">
-            <rect v-for="(box, index) in current_boxes" :key="index" :x="box.bbox.min_x" :y="box.bbox.min_y" :width="50"
-                :height="50" fill="blue" stroke="black" stroke-width="2" />
-        </svg>
+            <svg width="640" height="360">
+                <!-- <rect v-for="(box, index) in current_boxes" :key="index" :x="box.bbox.min_x * 640"
+                    :y="box.bbox.min_y * 480" :width="50" :height="50" fill="blue" stroke="black" stroke-width="2" /> -->
+
+                <circle v-for="(box, index) in current_boxes" :key="index" :cx="box.pos.x * 640" :cy="box.pos.y * 360"
+                    r="5" fill="red" />
+            </svg>
+        </div>
 
         <!-- {{tracks}} -->
     </div>
 
     <script>
+
+        var video
+
         var app = new Vue({
             el: '#app',
             data: {
@@ -67,6 +90,16 @@
                         // Handle any errors that occur during the fetch operation
                         console.error('Error:', error);
                     });
+
+                video = document.getElementById('video');
+
+                video.addEventListener('timeupdate', () => {
+                    const currentTime = video.currentTime;
+                    const frameRate = 30; // Replace with the actual frame rate of your video
+                    const frameNumber = Math.floor(currentTime * frameRate);
+                    // frameNumberElement.textContent = `Frame Number: ${frameNumber}`;
+                    this.current_time = frameNumber
+                });
             }
         })
 
