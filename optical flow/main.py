@@ -4,7 +4,7 @@ import numpy as np
 
 # The video feed is read in as
 # a VideoCapture object
-cap = cv.VideoCapture("asiuysa.mov")
+cap = cv.VideoCapture("480_60.mov")
 
 # ret = a boolean return value from
 # getting the frame, first_frame = the
@@ -26,6 +26,11 @@ mask = np.zeros_like(first_frame)
 mask[..., 1] = 255
 
 past_flows = []
+
+circle_x = int(first_frame.shape[1]/2)
+circle_y = int(first_frame.shape[0]/2)
+
+image_shape = first_frame.shape
 
 while (cap.isOpened()):
 
@@ -71,6 +76,20 @@ while (cap.isOpened()):
     cv.arrowedLine(frame, (350, 150), (int(350+float(median_channels[0])*-100),
                                        int(150+float(median_channels[1])*-100)), (0, 255, 255), 5)
 
+
+    circle_x += median_channels[0]
+    circle_y += median_channels[1]
+
+    if (circle_x > image_shape[1]) or (circle_x < 0) or (circle_y > image_shape[0]) or (circle_y < 0):
+        circle_x = int(first_frame.shape[1]/2)
+        circle_y = int(first_frame.shape[0]/2)
+
+    # print(flow[0])
+    circle_center = (int(circle_x), int(circle_y))
+
+    circle_radius = 15
+
+    cv.circle(frame, circle_center, circle_radius, (0, 0, 255), -1)
     # Opens a new window and displays the input
     # frame
     cv.imshow("input", frame)
