@@ -56,11 +56,11 @@ def find_islands(matrix):
       avg_y = float(indices[0].mean()/height)
       avg_x = float(indices[1].mean()/width)
 
-      min_x = int(indices[1].min()/width)
-      max_x = int(indices[1].max()/width)
+      min_x = float(indices[1].min()/width)
+      max_x = float(indices[1].max()/width)
 
-      min_y = int(indices[0].min()/height)
-      max_y = int(indices[0].max()/height)
+      min_y = float(indices[0].min()/height)
+      max_y = float(indices[0].max()/height)
 
       box = {'pos':{'x':avg_x, 'y':avg_y}, 'bbox':{'min_x':min_x, 'max_x':max_x,
                                                    'min_y':min_y, 'max_y':max_y}}
