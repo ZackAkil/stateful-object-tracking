@@ -36,6 +36,8 @@ from scipy.ndimage import label
 
 def find_islands(matrix):
 
+  height, width, _ = matrix.shape
+
   # Apply the label function to find connected components
   labeled_matrix, num_labels = label(matrix)
 
@@ -51,14 +53,14 @@ def find_islands(matrix):
       # Find the indices of the ones in the mask
       indices = np.where(mask)
 
-      avg_y = float(indices[0].mean())
-      avg_x = float(indices[1].mean())
+      avg_y = float(indices[0].mean()/height)
+      avg_x = float(indices[1].mean()/width)
 
-      min_x = int(indices[1].min())
-      max_x = int(indices[1].max())
+      min_x = int(indices[1].min()/width)
+      max_x = int(indices[1].max()/width)
 
-      min_y = int(indices[0].min())
-      max_y = int(indices[0].max())
+      min_y = int(indices[0].min()/height)
+      max_y = int(indices[0].max()/height)
 
       box = {'pos':{'x':avg_x, 'y':avg_y}, 'bbox':{'min_x':min_x, 'max_x':max_x,
                                                    'min_y':min_y, 'max_y':max_y}}
@@ -87,20 +89,22 @@ def plot_boxes(image, bboxes, save=None):
   plt.clf()
   plt.imshow(image)
 
+  height, width, _ = image.shape
+
   # Set the plot aspect ratio to equal
   plt.gca().set_aspect('equal')
 
   # Iterate over the unique labels (excluding background label 0)
   for box in bboxes:
 
-      avg_y = box['pos']['y']
-      avg_x = box['pos']['x']
+      avg_y = box['pos']['y'] * height
+      avg_x = box['pos']['x'] * width
 
-      min_x = box['bbox']['min_x']
-      max_x = box['bbox']['max_x']
+      min_x = box['bbox']['min_x'] * width
+      max_x = box['bbox']['max_x'] * width
 
-      min_y = box['bbox']['min_y']
-      max_y = box['bbox']['max_y']
+      min_y = box['bbox']['min_y'] * height
+      max_y = box['bbox']['max_y'] * height
 
       x, y = avg_x, avg_y
       circle = plt.Circle((x, y), radius=2, color='red', fill=True)
