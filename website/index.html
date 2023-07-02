@@ -39,7 +39,7 @@
         {{title}}
         {{this.current_time}}
         <div class="container">
-            <video id="video" src="drone_45.mp4" controls width="640" height="360"></video>
+            <video id="video" src="480_60.mov" controls width="640" height="360"></video>
 
             <svg width="640" height="360">
                 <!-- <rect v-for="(box, index) in current_boxes" :key="index" :x="box.bbox.min_x * 640"
@@ -89,7 +89,7 @@
             },
             mounted() {
                 self = this
-                fetch('tracking.json')
+                fetch('tracking_500.json')
                     .then(response => response.json())
                     .then(data => {
                         // Process the loaded JSON data
@@ -105,7 +105,7 @@
                     .then(response => response.json())
                     .then(data => {
                         // Process the loaded JSON data
-                        console.log(flow);
+                        console.log(data);
                         self.flow = data.flow
                     })
                     .catch(error => {
@@ -136,12 +136,12 @@
 
         function tick() {
             const currentTime = video.currentTime;
-            const frameRate = 25; // Replace with the actual frame rate of your video
+            const frameRate = 60; // Replace with the actual frame rate of your video
             const frameNumber = Math.floor(currentTime * frameRate);
             app.current_time = frameNumber
         }
 
-        setInterval(tick, 1000 / 30);
+        setInterval(tick, 1000 / 60);
 
     </script>
 </body>
