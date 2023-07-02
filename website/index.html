@@ -66,6 +66,7 @@
             data: {
                 title: "hello",
                 tracks: [],
+                flow: [],
                 current_time: 1,
                 display_track: null
             },
@@ -94,6 +95,18 @@
                         // Process the loaded JSON data
                         console.log(data);
                         self.tracks = data.object_tracks
+                    })
+                    .catch(error => {
+                        // Handle any errors that occur during the fetch operation
+                        console.error('Error:', error);
+                    });
+
+                    fetch('flow_data.json')
+                    .then(response => response.json())
+                    .then(data => {
+                        // Process the loaded JSON data
+                        console.log(flow);
+                        self.flow = data.flow
                     })
                     .catch(error => {
                         // Handle any errors that occur during the fetch operation

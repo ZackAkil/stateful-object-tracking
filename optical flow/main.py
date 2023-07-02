@@ -1,10 +1,12 @@
 import cv2 as cv
 import numpy as np
 
+import json
 
 # The video feed is read in as
 # a VideoCapture object
 cap = cv.VideoCapture("480_60.mov")
+# cap = cv.VideoCapture("720_20.mov")
 
 # ret = a boolean return value from
 # getting the frame, first_frame = the
@@ -39,6 +41,9 @@ while (cap.isOpened()):
     # projected in the video
     ret, frame = cap.read()
 
+    if not ret:
+        break
+
     # Converts each frame to grayscale - we previously
     # only converted the first frame to grayscale
     gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
@@ -49,7 +54,7 @@ while (cap.isOpened()):
                                        0.5, 3, 15, 3, 5, 1.2, 0)
     median_channels = np.median(flow, axis=(0, 1))
 
-    past_flows.append(median_channels)
+    past_flows.append(list(median_channels.astype(float)))
 
     print(median_channels)
 
@@ -104,6 +109,11 @@ while (cap.isOpened()):
     # user presses the 'q' key
     if cv.waitKey(1) & 0xFF == ord('q'):
         break
+
+with open('flow_data.json', 'w') as json_file:
+    # Use the json.dump() function to write the list to the file
+    json.dump({'flow':past_flows}, json_file)
+
 
 # The following frees up resources and
 # closes all windows
